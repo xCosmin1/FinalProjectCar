@@ -1,5 +1,6 @@
 package com.example.finalprojectcar.service;
 
+import com.example.finalprojectcar.dto.request.AddCarToRentalRequest;
 import com.example.finalprojectcar.dto.request.CarRequest;
 import com.example.finalprojectcar.dto.request.ReservationRequest;
 import com.example.finalprojectcar.dto.response.CarResponse;
@@ -91,6 +92,25 @@ public class UniqueService {
     public CustomerResponse getCustomer(String firstName){
         Customer customer = customerRepository.findCustomerByFirstName(firstName);
         return  customerMapper.fromCustomerResponse(customer);
+    }
+
+    public void addCarToRental(AddCarToRentalRequest request)
+    {
+
+        Integer carId = request.getCarId();
+        Integer rentalId = request.getRentalId();
+
+        Optional<Car> carOpt = carRepository.findById(carId);
+        Optional<Rental> rentalOpt = rentalRepository.findById(rentalId);
+
+        if(carOpt.isPresent() && rentalOpt.isPresent())
+        {
+            Car car = carOpt.get();
+            Rental rental = rentalOpt.get();
+
+            rental.insertCar(car);
+            rentalRepository.save(rental);// aici save-ul functioneaza ca un update
+        }
     }
 
 }

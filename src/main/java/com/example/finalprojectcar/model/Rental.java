@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,7 +26,15 @@ public class Rental {
     private String contactAddress;
 
     @OneToMany
-    private List<Car> cars;
+    private List<Car> cars = new ArrayList<>();
     @OneToMany
     private List<Employee> employees;
+
+
+    public void insertCar(Car car)
+    {
+        this.cars.add(car);
+        car.setRental(this);
+    }
+
 }

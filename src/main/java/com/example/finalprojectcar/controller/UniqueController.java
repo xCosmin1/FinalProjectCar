@@ -1,9 +1,6 @@
 package com.example.finalprojectcar.controller;
 
-import com.example.finalprojectcar.dto.request.CarRequest;
-import com.example.finalprojectcar.dto.request.CustomerRequest;
-import com.example.finalprojectcar.dto.request.EmployeeRequest;
-import com.example.finalprojectcar.dto.request.ReservationRequest;
+import com.example.finalprojectcar.dto.request.*;
 import com.example.finalprojectcar.dto.response.CarResponse;
 import com.example.finalprojectcar.dto.response.CustomerResponse;
 import com.example.finalprojectcar.dto.response.EmployeeResponse;
@@ -77,6 +74,13 @@ public class UniqueController {
         ReservationResponse response = uniqueService.getReservation(id);
         return ResponseEntity.ok(response);
 
+    }
+
+    @PostMapping("/addCarToRental")
+    public ResponseEntity<Void> addCarToRental(@RequestBody AddCarToRentalRequest addCarToRentalRequest)
+    {
+        uniqueService.addCarToRental(addCarToRentalRequest);
+        return ResponseEntity.ok().build();
     }
 
 }
