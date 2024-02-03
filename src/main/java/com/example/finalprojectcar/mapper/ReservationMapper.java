@@ -26,14 +26,16 @@ public class ReservationMapper {
 
         String carModel =  reservationRequest.getCarModel();
         Car car = carRepository.findCarByModel(carModel);
-
-        reservation.setCar(car);
-
+        if (car != null){
+            reservation.setCar(car);
+        }
 
         String customerName = reservationRequest.getCustomerName();
         Customer customer = customerRepository.findCustomerByFirstName(customerName);
+        if (customer != null){
+            reservation.setCustomer(customer);
+        }
 
-        reservation.setCustomer(customer);
         return reservation;
     }
     public ReservationResponse fromReservation(Reservation reservation){

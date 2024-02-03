@@ -18,10 +18,10 @@ public class CustomerMapper {
 
     public CustomerResponse fromCustomerResponse(Customer customer) {
         CustomerResponse customerResponse = new CustomerResponse();
-        customerResponse.setAddress(customerResponse.getAddress());
-        customerResponse.setEmail(customerResponse.getEmail());
+        customerResponse.setAddress(customer.getAddress());
+        customerResponse.setEmail(customer.getEmail());
         customerResponse.setFirstName(customer.getFirstName());
-        customerResponse.setLastName(customerResponse.getLastName());
+        customerResponse.setLastName(customer.getLastName());
         if (customer.getReservationList() != null) {
             customerResponse.setReservationList(customer.getReservationList());
         }

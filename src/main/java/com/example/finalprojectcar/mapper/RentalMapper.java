@@ -21,10 +21,10 @@ public class RentalMapper {
         rentalResponse.setName(rental.getName());
         rentalResponse.setContactAddress(rental.getContactAddress());
         if (rental.getCars() !=null) {
-            rentalResponse.setCars((List<String>) rental.getCars().stream().map(car -> car.getBrand()));
+            rentalResponse.setCars(rental.getCars().stream().map(car -> car.getBrand()).toList());
         }
         if (rental.getEmployees() !=null) {
-            rentalResponse.setEmployees((List<String>) rental.getEmployees().stream().map(employee -> employee.getFirstName()));
+            rentalResponse.setEmployees(rental.getEmployees().stream().map(employee -> employee.getFirstName()).toList());
         }
         return rentalResponse;
     }

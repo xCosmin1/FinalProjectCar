@@ -10,6 +10,8 @@ import com.example.finalprojectcar.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class EmployeeMapper {
     @Autowired
@@ -23,22 +25,22 @@ public class EmployeeMapper {
         employee.setFirstName(employeeRequest.getFirstName());
         employee.setLastName(employeeRequest.getLastName());
 
-        Rental rental = rentalRepository.findById(employeeRequest.getRentalId()).get();
-
-        employee.setRental(rental);
-
+        Optional<Rental> rental = rentalRepository.findById(employeeRequest.getRentalId());
+        if (rental.isPresent()) {
+            employee.setRental(rental.get());
+        }
         return employee;
 
     }
 
-    public EmployeeResponse employeeResponse(Employee employee){
-       EmployeeResponse employeeResponse1 = new EmployeeResponse();
+    public EmployeeResponse employeeResponse(Employee employee) {
+        EmployeeResponse employeeResponse1 = new EmployeeResponse();
         employeeResponse1.setRentalId(employee.getRental().getId());
         employeeResponse1.setPosition(String.valueOf(employee.getPosition()));
         employeeResponse1.setLastName(employee.getLastName());
         employeeResponse1.setFirstName(employee.getFirstName());
 
-        if(employee.getRental() !=null){
+        if (employee.getRental() != null) {
             employeeResponse1.setRentalId(employee.getRental().getId());
         }
         return employeeResponse1;
