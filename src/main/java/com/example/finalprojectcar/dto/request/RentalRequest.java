@@ -5,13 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeRequest {
-    private String firstName;
-    private String lastName;
-    private String position;
+public class RentalRequest {
+    private String name;
+    private String internetDomain;
+    private String contactAddress;
 
-    private Integer rentalId;
+
+
 }

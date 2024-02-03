@@ -3,8 +3,12 @@ package com.example.finalprojectcar.service;
 import com.example.finalprojectcar.dto.request.CarRequest;
 import com.example.finalprojectcar.dto.request.ReservationRequest;
 import com.example.finalprojectcar.dto.response.CarResponse;
+import com.example.finalprojectcar.dto.response.CustomerResponse;
+import com.example.finalprojectcar.dto.response.EmployeeResponse;
 import com.example.finalprojectcar.dto.response.ReservationResponse;
 import com.example.finalprojectcar.mapper.CarMapper;
+import com.example.finalprojectcar.mapper.CustomerMapper;
+import com.example.finalprojectcar.mapper.EmployeeMapper;
 import com.example.finalprojectcar.mapper.ReservationMapper;
 import com.example.finalprojectcar.model.*;
 import com.example.finalprojectcar.repository.*;
@@ -22,17 +26,22 @@ public class UniqueService {
     private final ReservationRepository reservationRepository;
 
     private final  ReservationMapper reservationMapper;
+    private final EmployeeMapper employeeMapper;
+    private final CustomerMapper customerMapper;
+
 
     public UniqueService(CarRepository carRepository, CustomerRepository customerRepository,
                          EmployeeRepository employeeRepository,
                          RentalRepository rentalRepository,
-                         ReservationRepository reservationRepository, ReservationMapper reservationMapper) {
+                         ReservationRepository reservationRepository, ReservationMapper reservationMapper, EmployeeMapper employeeMapper, CustomerMapper customerMapper) {
         this.carRepository = carRepository;
         this.customerRepository = customerRepository;
         this.employeeRepository = employeeRepository;
         this.rentalRepository = rentalRepository;
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
+        this.employeeMapper = employeeMapper;
+        this.customerMapper = customerMapper;
     }
 
     public void addCar(CarRequest carRequest) {
@@ -74,6 +83,14 @@ public class UniqueService {
        Reservation reservationFound = reservationRepository.findById(id).get();
 
         return reservationMapper.fromReservation(reservationFound);
+    }
+    public EmployeeResponse getEmployee(String firstName){
+        Employee employee = employeeRepository.findEmployeeByFirstName(firstName);
+        return  employeeMapper.employeeResponse(employee);
+    }
+    public CustomerResponse getCustomer(String firstName){
+        Customer customer = customerRepository.findCustomerByFirstName(firstName);
+        return  customerMapper.fromCustomerResponse(customer);
     }
 
 }
