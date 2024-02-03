@@ -4,9 +4,10 @@ import com.example.finalprojectcar.dto.request.CarRequest;
 import com.example.finalprojectcar.dto.response.CarResponse;
 import com.example.finalprojectcar.model.Car;
 import com.example.finalprojectcar.model.Status;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public class CarMapper {
     public static Car fromCarRequest(CarRequest carRequest)
     {
