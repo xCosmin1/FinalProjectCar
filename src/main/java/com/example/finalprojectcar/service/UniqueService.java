@@ -1,5 +1,6 @@
 package com.example.finalprojectcar.service;
 
+import com.example.finalprojectcar.dto.request.AddCarToRentalRequest;
 import com.example.finalprojectcar.dto.request.CarRequest;
 import com.example.finalprojectcar.dto.request.ReservationRequest;
 import com.example.finalprojectcar.dto.response.CarResponse;
@@ -25,7 +26,7 @@ public class UniqueService {
     private final RentalRepository rentalRepository;
     private final ReservationRepository reservationRepository;
 
-    private final  ReservationMapper reservationMapper;
+    private final ReservationMapper reservationMapper;
     private final EmployeeMapper employeeMapper;
     private final CustomerMapper customerMapper;
 
@@ -49,18 +50,15 @@ public class UniqueService {
         carRepository.save(car);
     }
 
-    public CarResponse getCar(Integer id)
-    {
+    public CarResponse getCar(Integer id) {
         Optional<Car> carOptional = carRepository.findById(id);
 
 
-        if(carOptional.isPresent())
-        {
+        if (carOptional.isPresent()) {
             Car car = carOptional.get();
             return CarMapper.fromCar(car);
-        }
-        else
-            throw new RuntimeException("No car with id "+id+ " was found!");
+        } else
+            throw new RuntimeException("No car with id " + id + " was found!");
     }
 
     public void addCustomer(Customer customer) {
@@ -79,18 +77,37 @@ public class UniqueService {
         Reservation reservation = reservationMapper.fromReservationRequest(reservationRequest);
         reservationRepository.save(reservation);
     }
-    public ReservationResponse getReservation(Integer id){
-       Reservation reservationFound = reservationRepository.findById(id).get();
+
+    public ReservationResponse getReservation(Integer id) {
+        Reservation reservationFound = reservationRepository.findById(id).get();
 
         return reservationMapper.fromReservation(reservationFound);
     }
-    public EmployeeResponse getEmployee(String firstName){
+
+    public EmployeeResponse getEmployee(String firstName) {
         Employee employee = employeeRepository.findEmployeeByFirstName(firstName);
-        return  employeeMapper.employeeResponse(employee);
+        return employeeMapper.employeeResponse(employee);
     }
-    public CustomerResponse getCustomer(String firstName){
+
+    public CustomerResponse getCustomer(String firstName) {
         Customer customer = customerRepository.findCustomerByFirstName(firstName);
-        return  customerMapper.fromCustomerResponse(customer);
+        return customerMapper.fromCustomerResponse(customer);
+    }
+
+    public void addCarToRental(AddCarToRentalRequest rentalRequest) {
+        Integer carId = rentalRequest.getCarId();
+        Integer rentalId = rentalRequest.getRentalId();
+
+        Optional<Car> carOpt = carRepository.findById(carId);
+        Optional<Rental> rentalOpt = rentalRepository.findById(rentalId);
+        if(carOpt.isPresent() && rentalOpt.isPresent()){
+            Car car = carOpt.get();
+            Rental rental = rentalOpt.get();
+
+            rental.insertCar(car);
+            rentalRepository.save(rental);// aici save-ul functioneaza ca un update.
+
+        }
     }
 
 }

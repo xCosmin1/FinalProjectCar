@@ -3,9 +3,10 @@ package com.example.finalprojectcar.mapper;
 import com.example.finalprojectcar.dto.request.RentalRequest;
 import com.example.finalprojectcar.dto.response.RentalResponse;
 import com.example.finalprojectcar.model.Rental;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public class RentalMapper {
     public Rental fromRentalRequest(RentalRequest rentalRequest){
         Rental rental = new Rental();
