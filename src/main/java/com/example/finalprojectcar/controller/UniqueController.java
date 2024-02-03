@@ -1,8 +1,10 @@
 package com.example.finalprojectcar.controller;
 
 import com.example.finalprojectcar.dto.request.CarRequest;
+import com.example.finalprojectcar.dto.request.EmployeeRequest;
 import com.example.finalprojectcar.dto.request.ReservationRequest;
 import com.example.finalprojectcar.dto.response.CarResponse;
+import com.example.finalprojectcar.dto.response.EmployeeResponse;
 import com.example.finalprojectcar.dto.response.ReservationResponse;
 import com.example.finalprojectcar.model.*;
 import com.example.finalprojectcar.service.UniqueService;
@@ -41,6 +43,9 @@ public class UniqueController {
         uniqueService.addEmployee(employee);
         return ResponseEntity.ok().build();
     }
+    public ResponseEntity<EmployeeResponse> getEmployee(@RequestBody EmployeeRequest employeeRequest){
+        EmployeeResponse employeeResponse = uniqueService.
+    }
     @PostMapping("/rental")
     public ResponseEntity<Void> addRental(@Valid @RequestBody Rental rental){
         uniqueService.addRental(rental);
@@ -54,7 +59,6 @@ public class UniqueController {
     @GetMapping("/reservation/{id}")
     public ResponseEntity<ReservationResponse> getReservation(@PathVariable Integer id)
     {
-
         ReservationResponse response = uniqueService.getReservation(id);
         return ResponseEntity.ok(response);
 

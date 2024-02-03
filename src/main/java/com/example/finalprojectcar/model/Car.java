@@ -19,7 +19,6 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String brand;
     private String model;
     private String bodyType;
@@ -29,8 +28,6 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private Status status;
     private Integer amount;
-
-
     @ManyToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;

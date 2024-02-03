@@ -38,15 +38,12 @@ public class ReservationMapper {
     }
     public ReservationResponse fromReservation(Reservation reservation){
 
-
         ReservationResponse reservationResponse = new ReservationResponse();
         reservationResponse.setCustomerName(reservation.getCustomer().getFirstName());
         reservationResponse.setDateFrom(reservation.getDateFrom());
         reservationResponse.setAmount(reservation.getAmount());
         reservationResponse.setDateTo(reservation.getDateTo());
-
         reservationResponse.setCarModel(reservation.getCar().getModel());
-
         return reservationResponse;
 
 

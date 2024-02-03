@@ -49,8 +49,6 @@ public class CarMapper {
             carResponse.setReservations(List.of());
         }
 
-
-
         return carResponse;
     }
 }
