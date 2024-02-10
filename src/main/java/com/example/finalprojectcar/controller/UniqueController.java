@@ -79,6 +79,7 @@ public class UniqueController {
     public ResponseEntity<Void> addCarToRental(@RequestBody AddCarToRentalRequest addCarToRentalRequest) {
         uniqueService.addCarToRental(addCarToRentalRequest);
         return ResponseEntity.ok().build();
+
     }
 
     @PostMapping("/addEmployeeToRental")

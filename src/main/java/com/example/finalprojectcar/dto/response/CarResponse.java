@@ -1,6 +1,5 @@
 package com.example.finalprojectcar.dto.response;
 
-import com.example.finalprojectcar.model.Rental;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
