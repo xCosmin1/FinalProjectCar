@@ -9,4 +9,5 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
 
     Car findCarByModel(String model);
 
+
 }

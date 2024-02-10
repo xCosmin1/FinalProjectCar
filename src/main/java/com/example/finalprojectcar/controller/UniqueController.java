@@ -1,10 +1,7 @@
 package com.example.finalprojectcar.controller;
 
 import com.example.finalprojectcar.dto.request.*;
-import com.example.finalprojectcar.dto.response.CarResponse;
-import com.example.finalprojectcar.dto.response.CustomerResponse;
-import com.example.finalprojectcar.dto.response.EmployeeResponse;
-import com.example.finalprojectcar.dto.response.ReservationResponse;
+import com.example.finalprojectcar.dto.response.*;
 import com.example.finalprojectcar.model.*;
 import com.example.finalprojectcar.service.UniqueService;
 import jakarta.validation.Valid;
@@ -34,19 +31,21 @@ public class UniqueController {
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<Void> addCustomer(@Valid @RequestBody Customer customer) {
-        uniqueService.addCustomer(customer);
+    public ResponseEntity<Void> addCustomer(@Valid @RequestBody CustomerRequest customerRequest) {
+        uniqueService.addCustomer(customerRequest);
         return ResponseEntity.ok().build();
     }
+
     @GetMapping("/customers/name")
-    public ResponseEntity<CustomerResponse> getCustomer(@RequestBody CustomerRequest customerRequest){
+    public ResponseEntity<CustomerResponse> getCustomer(@RequestBody CustomerRequest customerRequest) {
         CustomerResponse customerResponse = uniqueService.getCustomer(customerRequest.getFirstName());
         return ResponseEntity.ok(customerResponse);
 
     }
+
     @PostMapping("/employees")
-    public ResponseEntity<Void> addEmployee(@Valid @RequestBody Employee employee) {
-        uniqueService.addEmployee(employee);
+    public ResponseEntity<Void> addEmployee(@Valid @RequestBody EmployeeRequest employeeRequest) {
+        uniqueService.addEmployee(employeeRequest);
         return ResponseEntity.ok().build();
     }
 
@@ -57,8 +56,8 @@ public class UniqueController {
     }
 
     @PostMapping("/rental")
-    public ResponseEntity<Void> addRental(@Valid @RequestBody Rental rental) {
-        uniqueService.addRental(rental);
+    public ResponseEntity<Void> addRental(@Valid @RequestBody RentalRequest rentalRequest) {
+        uniqueService.addRental(rentalRequest);
         return ResponseEntity.ok().build();
     }
 
@@ -75,9 +74,32 @@ public class UniqueController {
         return ResponseEntity.ok(response);
 
     }
+
     @PostMapping("/addCarToRental")
-    public ResponseEntity<Void> addCarToRental(@RequestBody AddCarToRentalRequest addCarToRentalRequest){
+    public ResponseEntity<Void> addCarToRental(@RequestBody AddCarToRentalRequest addCarToRentalRequest) {
         uniqueService.addCarToRental(addCarToRentalRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/addEmployeeToRental")
+    public ResponseEntity<Void> addEmployeeToRental(@RequestBody AddEmployeeToRentalRequest addEmployeeToRentalRequest) {
+        uniqueService.addEmployeeToRental(addEmployeeToRentalRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/addReservationToCar")
+    public ResponseEntity<Void> addReservationToCar(@RequestBody AddReservationToCarRequest addReservationToCarRequest) {
+        uniqueService.addReservationToCar(addReservationToCarRequest);
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/addReservationToCustomer")
+    public ResponseEntity<Void> addReservationToCustomer(@RequestBody AddReservationToCustomerRequest addReservationToCustomerRequest){
+        uniqueService.addReservationToCustomer(addReservationToCustomerRequest);
+        return  ResponseEntity.ok().build();
+    }
+    @PostMapping("/{customerId}/{carId}")
+    public ResponseEntity<Void> returnCar(@PathVariable Integer customerId, @PathVariable Integer carId ){
+        uniqueService.returnCar(carId,customerId);
         return ResponseEntity.ok().build();
     }
 

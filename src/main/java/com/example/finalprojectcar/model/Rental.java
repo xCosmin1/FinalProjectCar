@@ -27,11 +27,18 @@ public class Rental {
 
     @OneToMany
     private List<Car> cars = new ArrayList<>();
+
+
     @OneToMany
-    private List<Employee> employees;
+    private List<Employee> employees = new ArrayList<>();
 
     public void insertCar(Car car){
         this.cars.add(car);
         car.setRental(this);
+    }
+
+    public void insertEmployee(Employee employee){
+        this.employees.add(employee);
+        employee.setRental(this);
     }
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -23,5 +24,10 @@ public class Customer {
     private String address;
 
     @OneToMany
-    private List<Reservation> reservationList;
+    private List<Reservation> reservationList = new ArrayList<>();
+
+    public void insertReservation(Reservation reservation){
+        this.reservationList.add(reservation);
+        reservation.setCustomer(this);
+    }
 }

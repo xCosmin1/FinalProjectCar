@@ -17,6 +17,7 @@ public class Employee {
     private String lastName;
     @Enumerated(EnumType.STRING)
     private Position position;
+
     @ManyToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,6 +32,12 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;
+
     @OneToMany
-    private List<Reservation> reservations;
+    private List<Reservation> reservations = new ArrayList<>();
+
+    public void insertReservation(Reservation reservation){
+        this.reservations.add(reservation);
+        reservation.setCar(this);
+    }
 }
