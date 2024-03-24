@@ -1,5 +1,6 @@
 package com.example.finalprojectcar.dto.response;
 
+import com.example.finalprojectcar.model.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ public class CarResponse {
     private Integer year;
     private String colour;
     private Integer mileage;
-    private String status;
+    private Status status;
     private Integer amount;
 
     private String rental;

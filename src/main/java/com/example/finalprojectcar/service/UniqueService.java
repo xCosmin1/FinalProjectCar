@@ -8,10 +8,14 @@ import com.example.finalprojectcar.dto.response.ReservationResponse;
 import com.example.finalprojectcar.mapper.*;
 import com.example.finalprojectcar.model.*;
 import com.example.finalprojectcar.repository.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.Optional;
+
 
 @Service
 public class UniqueService {
@@ -27,11 +31,12 @@ public class UniqueService {
     private final CustomerMapper customerMapper;
     private final RentalMapper rentalMapper;
 
+    private final RoleRepository roleRepository;
 
     public UniqueService(CarRepository carRepository, CustomerRepository customerRepository,
                          EmployeeRepository employeeRepository,
                          RentalRepository rentalRepository,
-                         ReservationRepository reservationRepository, ReservationMapper reservationMapper, EmployeeMapper employeeMapper, CustomerMapper customerMapper, RentalMapper rentalMapper) {
+                         ReservationRepository reservationRepository, ReservationMapper reservationMapper, EmployeeMapper employeeMapper, CustomerMapper customerMapper, RentalMapper rentalMapper, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.carRepository = carRepository;
         this.customerRepository = customerRepository;
         this.employeeRepository = employeeRepository;
@@ -41,12 +46,18 @@ public class UniqueService {
         this.employeeMapper = employeeMapper;
         this.customerMapper = customerMapper;
         this.rentalMapper = rentalMapper;
+
+        this.roleRepository = roleRepository;
     }
 
     public void addCar(CarRequest carRequest) {
         Car car = CarMapper.fromCarRequest(carRequest);
         carRepository.save(car);
+        throw new ResponseStatusException(HttpStatus.CREATED);
     }
+
+
+
 
     public CarResponse getCar(Integer id) {
         Optional<Car> carOptional = carRepository.findById(id);
@@ -60,8 +71,8 @@ public class UniqueService {
     }
 
 
-    public void addCustomer(CustomerRequest customerRequest) {
-        Customer customer = customerMapper.fromCustomerRequest(customerRequest);
+    public void addCustomer(RegisterRequest registerRequest) {
+        Customer customer = customerMapper.fromRegisterRequest(registerRequest);
         customerRepository.save(customer);
     }
 
@@ -165,28 +176,56 @@ public class UniqueService {
     }
 
     public void returnCar(Integer customerId, Integer carId) {
-
-
-        Optional<Customer> customerOptional = customerRepository.findById(customerId);   // customer_id =1 // car_id =3 // reservations = {1,2,3}
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);      // customer_id =1 // car_id =3 // reservations = {1,2,3}
         Optional<Car> carOptional = carRepository.findById(carId);
+
         if (carOptional.isPresent() && customerOptional.isPresent()) {
             Car car = carOptional.get();
             Customer customer = customerOptional.get();
 
-            Optional<Reservation> reservationFound = customer.getReservationList().stream().filter(reservation -> reservation.getCar().equals(car)).findAny();
+            Optional<Reservation> reservationFound = customer.getReservationList()
+                    .stream()
+                    .filter(reservation -> reservation.getCar().equals(car))
+                    .findAny();
+
             if (reservationFound.isPresent()) {
-                car.setStatus(Status.valueOf("AVAILABLE"));
+                Reservation reservation = reservationFound.get();
 
-                reservationFound.get().setCar(null);
 
-                car.getReservations().remove(reservationFound.get());
+                car.setStatus(Status.AVAILABLE);
+
+
+                reservation.setCar(null);
+
+
+                car.getReservations().remove(reservation);
+
+                reservation.setCustomer(null);
 
                 carRepository.save(car);
             }
-
         }
-
     }
 
+
+
+
+    public void registerCustomer(RegisterRequest registerRequest) {
+        Customer customer = customerMapper.fromRegisterRequest(registerRequest);
+        Optional<Customer> existingCustomer = Optional.ofNullable(customerRepository.findByEmail(customer.getEmail()));
+
+        if (existingCustomer.isPresent()) {
+            throw new RuntimeException("A customer with the same email already exists");
+        } else {
+            customerRepository.save(customer);
+        }
+    }
+
+    public void deleteCustomer(Integer customerId){
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        if (customerOptional.isPresent()){
+            customerRepository.deleteById(customerId);
+        }
+    }
 
 }

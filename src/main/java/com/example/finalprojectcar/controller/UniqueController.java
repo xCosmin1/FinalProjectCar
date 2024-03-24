@@ -2,15 +2,17 @@ package com.example.finalprojectcar.controller;
 
 import com.example.finalprojectcar.dto.request.*;
 import com.example.finalprojectcar.dto.response.*;
-import com.example.finalprojectcar.model.*;
 import com.example.finalprojectcar.service.UniqueService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/controller")
 public class UniqueController {
+    @Autowired
     private final UniqueService uniqueService;
 
     public UniqueController(UniqueService uniqueService) {
@@ -18,9 +20,10 @@ public class UniqueController {
     }
 
     @PostMapping("/cars")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> addCar(@Valid @RequestBody CarRequest carRequest) {
         uniqueService.addCar(carRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/car/{id}")
@@ -31,14 +34,14 @@ public class UniqueController {
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<Void> addCustomer(@Valid @RequestBody CustomerRequest customerRequest) {
-        uniqueService.addCustomer(customerRequest);
+    public ResponseEntity<Void> addCustomer(@Valid @RequestBody RegisterRequest registerRequest) {
+        uniqueService.addCustomer(registerRequest);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/customers/name")
-    public ResponseEntity<CustomerResponse> getCustomer(@RequestBody CustomerRequest customerRequest) {
-        CustomerResponse customerResponse = uniqueService.getCustomer(customerRequest.getFirstName());
+    public ResponseEntity<CustomerResponse> getCustomer(@RequestBody RegisterRequest registerRequest) {
+        CustomerResponse customerResponse = uniqueService.getCustomer(registerRequest.getFirstName());
         return ResponseEntity.ok(customerResponse);
 
     }
@@ -98,9 +101,14 @@ public class UniqueController {
         uniqueService.addReservationToCustomer(addReservationToCustomerRequest);
         return  ResponseEntity.ok().build();
     }
-    @PostMapping("/{customerId}/{carId}")
+    @PutMapping("/{customerId}/{carId}")
     public ResponseEntity<Void> returnCar(@PathVariable Integer customerId, @PathVariable Integer carId ){
         uniqueService.returnCar(carId,customerId);
+        return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("/customers/{customerId}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Integer customerId){
+        uniqueService.deleteCustomer(customerId);
         return ResponseEntity.ok().build();
     }
 

@@ -1,10 +1,11 @@
 package com.example.finalprojectcar.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +20,28 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
+    @NotNull
+    @NotEmpty
     private String name;
     @Column(name = "internet_domain")
+
+    @NotNull
+    @NotEmpty
     private String internetDomain;
+
+    @NotNull
+    @NotEmpty
     @Column(name = "contact_address")
     private String contactAddress;
 
+    @NotNull
+    @NotEmpty
     @OneToMany
     private List<Car> cars = new ArrayList<>();
 
-
+    @NotNull
+    @NotEmpty
     @OneToMany
     private List<Employee> employees = new ArrayList<>();
 

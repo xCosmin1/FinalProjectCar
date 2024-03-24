@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddCarRentalRequest {
-    private Integer carId;
-    private Integer rentalId;
+@Data
+public class LoginRequest {
+    private String email;
+    private String password;
 }

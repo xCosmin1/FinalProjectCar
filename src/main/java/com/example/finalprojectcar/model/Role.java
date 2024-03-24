@@ -4,32 +4,34 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+import java.util.List;
+
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Employee {
+@Table(name="roles")
+public class Role
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotNull
     @NotEmpty
-    private String firstName;
+    @Column(nullable=false, unique=true)
+    private String name;
 
     @NotNull
     @NotEmpty
-    private String lastName;
-
-    @NotNull
-    @NotEmpty
-    @Enumerated(EnumType.STRING)
-    private Position position;
-
-    @ManyToOne
-    @JoinColumn(name = "rental_id")
-    private Rental rental;
+    @ManyToMany(mappedBy="roles")
+    private List<Customer> customers;
+    public String toString(){
+        return name;
+    }
 }

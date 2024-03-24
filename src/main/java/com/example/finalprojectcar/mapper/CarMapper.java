@@ -19,7 +19,7 @@ public class CarMapper {
         car.setMileage(carRequest.getMileage());
         car.setYear(carRequest.getYear());
         car.setBodyType(carRequest.getBodyType());
-        car.setStatus(Status.valueOf(carRequest.getStatus()));
+        car.setStatus(Status.valueOf(String.valueOf(carRequest.getStatus())));
 
         return car;
     }
@@ -33,7 +33,7 @@ public class CarMapper {
         carResponse.setColour(car.getColour());
         carResponse.setBrand(car.getBrand());
         carResponse.setYear(car.getYear());
-        carResponse.setStatus(car.getStatus().name());
+        carResponse.setStatus(Status.valueOf(car.getStatus().name()));
         carResponse.setBodyType(car.getBodyType());
 
         if(car.getRental() != null)
